@@ -1,0 +1,15 @@
+/Users/yunhyeonhu/Projects/Scientific_Calculator/Scientific_Calculator/bin/Debug/net6.0/Scientific_Calculator
+/Users/yunhyeonhu/Projects/Scientific_Calculator/Scientific_Calculator/bin/Debug/net6.0/Scientific_Calculator.deps.json
+/Users/yunhyeonhu/Projects/Scientific_Calculator/Scientific_Calculator/bin/Debug/net6.0/Scientific_Calculator.runtimeconfig.json
+/Users/yunhyeonhu/Projects/Scientific_Calculator/Scientific_Calculator/bin/Debug/net6.0/Scientific_Calculator.dll
+/Users/yunhyeonhu/Projects/Scientific_Calculator/Scientific_Calculator/bin/Debug/net6.0/Scientific_Calculator.pdb
+/Users/yunhyeonhu/Projects/Scientific_Calculator/Scientific_Calculator/obj/Debug/net6.0/Scientific_Calculator.csproj.AssemblyReference.cache
+/Users/yunhyeonhu/Projects/Scientific_Calculator/Scientific_Calculator/obj/Debug/net6.0/Scientific_Calculator.GeneratedMSBuildEditorConfig.editorconfig
+/Users/yunhyeonhu/Projects/Scientific_Calculator/Scientific_Calculator/obj/Debug/net6.0/Scientific_Calculator.AssemblyInfoInputs.cache
+/Users/yunhyeonhu/Projects/Scientific_Calculator/Scientific_Calculator/obj/Debug/net6.0/Scientific_Calculator.AssemblyInfo.cs
+/Users/yunhyeonhu/Projects/Scientific_Calculator/Scientific_Calculator/obj/Debug/net6.0/Scientific_Calculator.csproj.CoreCompileInputs.cache
+/Users/yunhyeonhu/Projects/Scientific_Calculator/Scientific_Calculator/obj/Debug/net6.0/Scientific_Calculator.dll
+/Users/yunhyeonhu/Projects/Scientific_Calculator/Scientific_Calculator/obj/Debug/net6.0/refint/Scientific_Calculator.dll
+/Users/yunhyeonhu/Projects/Scientific_Calculator/Scientific_Calculator/obj/Debug/net6.0/Scientific_Calculator.pdb
+/Users/yunhyeonhu/Projects/Scientific_Calculator/Scientific_Calculator/obj/Debug/net6.0/Scientific_Calculator.genruntimeconfig.cache
+/Users/yunhyeonhu/Projects/Scientific_Calculator/Scientific_Calculator/obj/Debug/net6.0/ref/Scientific_Calculator.dll
