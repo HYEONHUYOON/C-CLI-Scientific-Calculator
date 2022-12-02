@@ -6,20 +6,42 @@ namespace Scientific_Calculator
 {
     public class Calculator
     {
+        //수학 함수 클래스
+        MathFunc Math = new MathFunc();
+
         //후위 변환식을 위한 연산자 저장
         Stack<char> stack = new Stack<char>();
 
         //콘솔 계산식을 위한 저장
         List<string> calculate = new List<string>();
 
+        //결과 값
+        double Result=0;
+
         //실수인지 판별을 위한 TryParse 변수
         double value;
         bool isValue;
 
+        //현재 .[34] 함수 입력중
+        bool nowDot;
+
+        //함수 입력중
+        bool nowFunc;
+        string temp;
+
+        //연산자 입력중
+        bool nowOper;
+
+        //입력수
+        int inputN;
+
+        //계산기 상태
+        bool isC;
+        public bool isSecondMode = false;
+
         public Calculator(){}
 
         //세컨드모드 인지
-        public bool isSecondMode = false;
 
         //기본 UI CE
         public void BasicUI()
@@ -513,45 +535,161 @@ namespace Scientific_Calculator
             Console.WriteLine();
         }
 
+        //[34] 함수 중 일떄
+        public void NowIsDot(int num)
+        {
+            if (nowDot)
+            {
+                isValue = double.TryParse(calculate[calculate.Count - 1], out value);
+
+                if (isValue)
+                {
+                    calculate.RemoveAt(calculate.Count - 1);
+                    calculate.Add(value + "." + num);
+                    nowDot = false;
+                }
+            }
+        }
+
+        //수 모으기
+        public void GatherNum(int num)
+        {
+            nowOper = false;
+
+            if (!nowDot)
+            {
+                if (calculate.Count != 0)
+                {
+                    //앞 인덱스가 상수 라면
+                    isValue = double.TryParse(calculate[calculate.Count - 1], out value);
+
+                    if (isValue)
+                    {
+                        calculate.RemoveAt(calculate.Count - 1);
+                        calculate.Add(value.ToString() + num);
+                        nowDot = false;
+                    }
+                    else if(!nowFunc)
+                        calculate.Add(num.ToString());
+
+                    //함수 입력중일 때
+                    else if (nowFunc)
+                    {
+                        calculate.RemoveAt(calculate.Count - 1);
+                        calculate.Add(value.ToString() + num);
+                    }
+                }
+                else
+                {
+                    calculate.Add(num.ToString());
+                }
+                nowFunc = false;
+            }
+            nowFunc = false;
+        }
+
+        //함수 입력
+        public void FuncInput(string funcName)
+        {
+            //전 인덱스가 함수가 아닐 때
+            if (!nowFunc)
+            {
+                if (calculate.Count == 0 || nowOper)
+                {
+                    if (funcName == "ln")
+                    {
+                        Console.WriteLine("입력이 잘못되었습니다.");
+                    }
+                    else
+                    {
+                        calculate.Add(funcName + "(" + 0 + ")");
+                        nowFunc = true;
+                    }
+                }
+                else
+                {
+                    isValue = double.TryParse(calculate[calculate.Count - 1], out value);
+
+                    if (isValue)
+                    {
+                        calculate.RemoveAt(calculate.Count - 1);
+                        calculate.Add(funcName + "(" + value + ")");
+                    }
+                }
+            }
+            //함수 입력 중이라면
+            else
+            {
+                temp = calculate[calculate.Count - 1];
+                calculate.RemoveAt(calculate.Count - 1);
+                calculate.Add(funcName + "(" + temp + ")");
+                nowFunc = true;
+            }
+        }
+
         //입력
         public void InputNum()
         {
-            int inputN;
             Console.Write("{0,75}","입력 :");
 
             inputN = int.Parse(Console.ReadLine());
 
             switch(inputN)
             {
-                case 1:
-                    calculate.Add("1");
+                case 1:   
+                    nowOper = false;
+                    GatherNum(1);
+                    NowIsDot(1);
                     break;
                 case 2:
-                    calculate.Add("2");
+                    nowOper = false;
+                    GatherNum(2);
+                    NowIsDot(2);
                     break;
                 case 3:
-                    calculate.Add("3");
+                    nowOper = false;
+                    GatherNum(3);
+                    NowIsDot(3);
                     break;
                 case 4:
-                    calculate.Add("4");
+                    nowOper = false;
+                    GatherNum(4);
+                    NowIsDot(4);
                     break;
                 case 5:
-                    calculate.Add("5");
+                    nowOper = false;
+                    GatherNum(5);
+                    NowIsDot(5);
                     break;
                 case 6:
-                    calculate.Add("6");
+                    nowOper = false;
+                    GatherNum(6);
+                    NowIsDot(6);
                     break;
                 case 7:
-                    calculate.Add("7");
+                    nowOper = false;
+                    GatherNum(7);
+                    NowIsDot(7);
                     break;
                 case 8:
-                    calculate.Add("8");
+                    nowOper = false;
+                    GatherNum(8);
+                    NowIsDot(8);
                     break;
                 case 9:
-                    calculate.Add("9");
+                    nowOper = false;
+                    GatherNum(9);
+                    NowIsDot(9);
                     break;
                 case 0:
-                    calculate.Add("0");
+                    nowOper = false;
+                    GatherNum(0);
+                    NowIsDot(0);
+                    break;
+
+                case 10:
+                    isSecondMode = true;
+                    nowOper = false;
                     break;
 
                 // π
@@ -564,9 +702,13 @@ namespace Scientific_Calculator
                     calculate.Add("e");
                     break;
 
-                // CE
+                // CE C
                 case 13:
-                    calculate.Clear();
+                    if (!isC)
+                        calculate.Clear();
+                    else
+                        stack.Clear();
+
                     break;
 
                 // <<
@@ -574,40 +716,44 @@ namespace Scientific_Calculator
                     calculate.RemoveAt(calculate.Count - 1);
                     break;
 
-                // sqr
+                // sqr , cube
                 case 15:
+                    if (!isSecondMode)
+                        FuncInput("sqr");
+                    else
+                    {
+                        FuncInput("cube");
+                        isSecondMode = false;
+                    }
+                    nowFunc = true;
+                    break;
+
+                // 1/x
+                case 16:
                     isValue = double.TryParse(calculate[calculate.Count - 1], out value);
 
                     if (isValue)
                     {
                         calculate.RemoveAt(calculate.Count - 1);
-                        calculate.Add("sqr("+value+")");
+                        calculate.Add("1/(" + value + ")");
                     }
-                    break;
-
-                // 1/x @@
-                case 16:
-                    calculate.RemoveAt(calculate.Count - 1);
                     break;
 
                 // abs
-                case 17:  
-                    isValue = double.TryParse(calculate[calculate.Count - 1], out value);
+                case 17:
+                    FuncInput("abs");
+                    nowFunc = true;
+                    break;
 
+                // Exp 
+                case 18:
+                    isValue = double.TryParse(calculate[calculate.Count - 1], out value);
+            
                     if (isValue)
                     {
                         calculate.RemoveAt(calculate.Count - 1);
-                        calculate.Add("abs(" + value + ")");
-                    }
-                    break;
-
-                // Exp @@
-                case 18:
-                    isValue = double.TryParse(calculate[calculate.Count - 1], out value);
-
-                    if (isValue)
-                    {
-                        calculate.Add("mod");
+                        calculate.Add(value + ".e+");
+                        calculate.Add("0");
                     }
                     break;
 
@@ -621,16 +767,18 @@ namespace Scientific_Calculator
                     }
                     break;
 
-                // sqrt
+                // sqrt , cuberoot
                 case 20:
-                    isValue = double.TryParse(calculate[calculate.Count - 1], out value);
-
-                    if (isValue)
+                    if (!isSecondMode)
+                        FuncInput("sqrt");
+                    else
                     {
-                        calculate.RemoveAt(calculate.Count - 1);
-                        calculate.Add("sqrt(" + value + ")");
+                        FuncInput("cuberoot");
+                        isSecondMode = false;
                     }
+                    nowFunc = true;
                     break;
+
 
                 // (
                 case 21:
@@ -649,12 +797,8 @@ namespace Scientific_Calculator
 
                 // factorial
                 case 23:
-                    isValue = double.TryParse(calculate[calculate.Count - 1], out value);
-
-                    if (isValue)
-                    {
-                        //펙토리얼
-                    }
+                    FuncInput("fact");
+                    nowFunc = true;
                     break;
 
                 // 나누기 /
@@ -670,15 +814,24 @@ namespace Scientific_Calculator
                     }
                     stack.Push('/');
                     calculate.Add("/");
+                    nowOper = true;
                     break;
 
-                // ^
+                // ^ , yroot
                 case 25:
-                    isValue = double.TryParse(calculate[calculate.Count - 1], out value);
-
-                    if (isValue)
+                    if (!isSecondMode)
                     {
-                        calculate.Add("^");
+                        isValue = double.TryParse(calculate[calculate.Count - 1], out value);
+
+                        if (isValue)
+                        {
+                            calculate.Add("^");
+                        }
+                    }
+                    else
+                    {
+                        calculate.Add("yroot");
+                        isSecondMode = false;
                     }
                     break;
 
@@ -695,15 +848,31 @@ namespace Scientific_Calculator
                     }
                     stack.Push('*');
                     calculate.Add("*");
+                    nowOper = true;
                     break;
 
-                // 10^
+                // 10^ ,2^
                 case 27:
-                    isValue = double.TryParse(calculate[calculate.Count - 1], out value);
-
-                    if (isValue)
+                    if (!isSecondMode)
                     {
-                        calculate.Add("^");
+                        isValue = double.TryParse(calculate[calculate.Count - 1], out value);
+
+                        if (isValue)
+                        {
+                            calculate.RemoveAt(calculate.Count - 1);
+                            calculate.Add("10^(" + value + ")");
+                        }
+                    }
+                    else
+                    {
+                        isValue = double.TryParse(calculate[calculate.Count - 1], out value);
+
+                        if (isValue)
+                        {
+                            calculate.RemoveAt(calculate.Count - 1);
+                            calculate.Add("2^(" + value + ")");
+                        }
+                        isSecondMode = false;
                     }
                     break;
 
@@ -716,16 +885,17 @@ namespace Scientific_Calculator
                     }
                     stack.Push('-');
                     calculate.Add("-");
+                    nowOper = true;
                     break;
 
-                // log
+                // log, log base
                 case 29:
-                    isValue = double.TryParse(calculate[calculate.Count - 1], out value);
-
-                    if (isValue)
+                    if(!isSecondMode)
+                        FuncInput("log");
+                    else
                     {
-                        calculate.RemoveAt(calculate.Count - 1);
-                        calculate.Add("Log(" + value + ")");
+                        calculate.Add("log base");
+                        isSecondMode = false;
                     }
                     break;
 
@@ -738,16 +908,20 @@ namespace Scientific_Calculator
                     }
                     stack.Push('+');
                     calculate.Add("+");
+                    nowOper = true;
                     break;
 
-                // ln
+                // ln, e^
                 case 31:
-                    isValue = double.TryParse(calculate[calculate.Count - 1], out value);
-
-                    if (isValue)
+                    if (!isSecondMode)
                     {
-                        calculate.RemoveAt(calculate.Count - 1);
-                        calculate.Add("ln(" + value + ")");
+                        FuncInput("ln");
+
+                    }
+                    else
+                    {
+                        FuncInput("e^");
+                        isSecondMode = false;
                     }
                     break;
 
@@ -757,7 +931,9 @@ namespace Scientific_Calculator
 
                     if (isValue)
                     {
-                        //+- 바꾸기
+                        value = value / -1;
+                        calculate.RemoveAt(calculate.Count - 1);
+                        calculate.Add("("+value+")");
                     }
                     break;
 
@@ -767,7 +943,9 @@ namespace Scientific_Calculator
 
                     if (isValue)
                     {
-                        calculate.Add(".");
+                        calculate.RemoveAt(calculate.Count - 1);
+                        calculate.Add(value+".");
+                        nowDot = true;
                     }
                     break;
 
@@ -785,9 +963,12 @@ namespace Scientific_Calculator
 
         public void Print()
         {
+            Console.WriteLine("---------------------------------------------------------------------------------");
+            Console.WriteLine();
             for (int i = 0; i < calculate.Count; i++)
             {
                 Console.Write(calculate[i]);
+                Console.Write(" ");
             }
         }
     }

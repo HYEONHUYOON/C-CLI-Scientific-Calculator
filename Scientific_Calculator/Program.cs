@@ -11,10 +11,18 @@ namespace Scientific_Calculator
             Calculator cal = new Calculator();
             while (true)
             {
-                cal.BasicUI();
+                cal.Print();
+
+                if (!cal.isSecondMode)
+                {
+                    cal.BasicUI();
+                }
+                else
+                {
+                    cal.SecondModeUI();
+                }
 
                 cal.InputNum();
-                cal.Print();
             }
         }
     }
