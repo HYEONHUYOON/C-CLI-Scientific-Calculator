@@ -8,9 +8,14 @@ namespace Scientific_Calculator
     {
         public static void Main()
         {
-            MathFunc m = new MathFunc();
+            Calculator cal = new Calculator();
+            while (true)
+            {
+                cal.BasicUI();
 
-            Console.Write(m.PI());
+                cal.InputNum();
+                cal.Print();
+            }
         }
     }
 }

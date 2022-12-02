@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Data;
+using MathNet.Numerics;
 
 namespace Scientific_Calculator
 {
@@ -89,12 +90,20 @@ namespace Scientific_Calculator
             if(x == 0)    
                 return 0;
 
-            else
+            //정수라면
+            else if(x%1==0)
             {
                 for (int i=1;i<=x;i++)
                 {
                     returnV *= i;
                 }
+                return returnV;
+            }
+            //실수라면
+            else
+            {
+                returnV = SpecialFunctions.Gamma(x+1);
+
                 return returnV;
             }
         }
@@ -174,9 +183,7 @@ namespace Scientific_Calculator
         //자연상수e 제곱
         public double eSquare(double x)
         {
-            double returnV = Math.Pow(Math.E, x);
-
-            return returnV;
+            return Math.Pow(Math.E, x);
         }
     }
 }

@@ -1,8 +1,10 @@
 {
   "version": 2,
-  "dgSpecHash": "CEr70s8E9T48SGLssVA9U5BfBmE8hAHOKNkueSwwi8b2zg/j5BlWo3otvPY7bGojnERaFo4mWG3dwmrHrPihhA==",
+  "dgSpecHash": "LvxkJ8QrOxyDNaazEsLabS0XbRRekkCY8agnMF47fq0yBIsuym0b3JRFDqVLRMItS0lRhCM1mrkzm1IpY6OWcA==",
   "success": true,
   "projectFilePath": "/Users/yunhyeonhu/Projects/Scientific_Calculator/Scientific_Calculator/Scientific_Calculator.csproj",
-  "expectedPackageFiles": [],
+  "expectedPackageFiles": [
+    "/Users/yunhyeonhu/.nuget/packages/mathnet.numerics/5.0.0/mathnet.numerics.5.0.0.nupkg.sha512"
+  ],
   "logs": []
 }

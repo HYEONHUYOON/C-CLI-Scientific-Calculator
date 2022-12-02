@@ -13,3 +13,5 @@
 /Users/yunhyeonhu/Projects/Scientific_Calculator/Scientific_Calculator/obj/Debug/net6.0/Scientific_Calculator.pdb
 /Users/yunhyeonhu/Projects/Scientific_Calculator/Scientific_Calculator/obj/Debug/net6.0/Scientific_Calculator.genruntimeconfig.cache
 /Users/yunhyeonhu/Projects/Scientific_Calculator/Scientific_Calculator/obj/Debug/net6.0/ref/Scientific_Calculator.dll
+/Users/yunhyeonhu/Projects/Scientific_Calculator/Scientific_Calculator/bin/Debug/net6.0/MathNet.Numerics.dll
+/Users/yunhyeonhu/Projects/Scientific_Calculator/Scientific_Calculator/obj/Debug/net6.0/Scientific_Calculator.csproj.CopyComplete
