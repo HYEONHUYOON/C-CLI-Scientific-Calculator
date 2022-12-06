@@ -8,6 +8,10 @@ namespace Scientific_Calculator
     {
         public static void Main()
         {
+            MathFunc mathF = new MathFunc();
+
+            Console.Write(mathF.exp(1, 1));
+
             Calculator cal = new Calculator();
             while (true)
             {

@@ -54,13 +54,13 @@ namespace Scientific_Calculator
         }
 
         //exp 보류
-        public double exp(double x, double y)
+        public double exp(double x, int y)
         {
             double returnV =x;
 
-            for (int i = 0; i<y;i++)
+            for (int i = 1; i<=y;i++)
             {
-                returnV *= 10;
+                returnV = returnV * 10;
             }
 
             return returnV;

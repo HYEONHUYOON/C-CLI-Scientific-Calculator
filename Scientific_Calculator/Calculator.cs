@@ -7,7 +7,7 @@ namespace Scientific_Calculator
     public class Calculator
     {
         //수학 함수 클래스
-        MathFunc Math = new MathFunc();
+        MathFunc MathF = new MathFunc();
 
         //후위 변환식을 위한 연산자 저장
         Stack<char> stack = new Stack<char>();
@@ -32,12 +32,27 @@ namespace Scientific_Calculator
         //연산자 입력중
         bool nowOper;
 
+        //제곱 입력중
+        bool nowCarrot;
+
         //입력수
         int inputN;
+
+        //e, PI 입력중
+        bool ePI;
 
         //계산기 상태
         bool isC;
         public bool isSecondMode = false;
+
+        //하단
+        string bottomS = "";
+        double bottomD = 0;
+
+        //Exp값
+        double expDouble;
+        string expDoubleS ="0";
+        bool nowExp;
 
         public Calculator(){}
 
@@ -56,7 +71,7 @@ namespace Scientific_Calculator
             Console.Write("|");
             Console.Write("{0,15}","secondMode[10]");
             Console.Write("|");
-            Console.Write("{0,15}", "π[11]");
+            Console.Write("{0,14}", "π[11]");
             Console.Write("|");
             Console.Write("{0,15}", "e[12]");
             Console.Write("|");
@@ -179,7 +194,7 @@ namespace Scientific_Calculator
             Console.Write("|");
             Console.Write("{0,15}", "secondMode[10]");
             Console.Write("|");
-            Console.Write("{0,15}", "π[11]");
+            Console.Write("{0,14}", "π[11]");
             Console.Write("|");
             Console.Write("{0,15}", "e[12]");
             Console.Write("|");
@@ -302,7 +317,7 @@ namespace Scientific_Calculator
             Console.Write("|");
             Console.Write("{0,15}", "secondMode[10]");
             Console.Write("|");
-            Console.Write("{0,15}", "π[11]");
+            Console.Write("{0,14}", "π[11]");
             Console.Write("|");
             Console.Write("{0,15}", "e[12]");
             Console.Write("|");
@@ -425,7 +440,7 @@ namespace Scientific_Calculator
             Console.Write("|");
             Console.Write("{0,15}", "secondMode[10]");
             Console.Write("|");
-            Console.Write("{0,15}", "π[11]");
+            Console.Write("{0,14}", "π[11]");
             Console.Write("|");
             Console.Write("{0,15}", "e[12]");
             Console.Write("|");
@@ -576,7 +591,7 @@ namespace Scientific_Calculator
                     else if (nowFunc)
                     {
                         calculate.RemoveAt(calculate.Count - 1);
-                        calculate.Add(value.ToString() + num);
+                        calculate.Add(num.ToString());
                     }
                 }
                 else
@@ -593,9 +608,11 @@ namespace Scientific_Calculator
         {
             //전 인덱스가 함수가 아닐 때
             if (!nowFunc)
-            {
-                if (calculate.Count == 0 || nowOper)
+            {   
+                //아무것도 입력 안했거나 연산자 중일 때
+                if (bottomS =="" || nowOper)
                 {
+                    //ln 일때
                     if (funcName == "ln")
                     {
                         Console.WriteLine("입력이 잘못되었습니다.");
@@ -606,25 +623,68 @@ namespace Scientific_Calculator
                         nowFunc = true;
                     }
                 }
+
                 else
                 {
-                    isValue = double.TryParse(calculate[calculate.Count - 1], out value);
+                    //isValue = double.TryParse(calculate[calculate.Count - 1], out value);
 
-                    if (isValue)
-                    {
-                        calculate.RemoveAt(calculate.Count - 1);
-                        calculate.Add(funcName + "(" + value + ")");
-                    }
+                    //if (isValue)
+                    //{
+                    //    calculate.RemoveAt(calculate.Count - 1);
+                    //    calculate.Add(funcName + "(" + value + ")");
+                    //}
+                    bottomD = double.Parse(bottomS);
+                    calculate.Add(funcName + "(" + bottomD + ")");
                 }
             }
             //함수 입력 중이라면
-            else
+            else if(nowFunc)
             {
                 temp = calculate[calculate.Count - 1];
                 calculate.RemoveAt(calculate.Count - 1);
                 calculate.Add(funcName + "(" + temp + ")");
                 nowFunc = true;
             }
+        }
+
+        public void NumInput(string num)
+        {
+            if (ePI)
+            {
+                //calculate.RemoveAt(calculate.Count - 1);
+                bottomS = num;
+                //calculate.Add("1");
+                ePI = false;
+            }
+            else if (nowExp)
+            {
+                if (expDoubleS == "0")
+                {
+                    expDoubleS = "";
+                    expDoubleS += num;
+                }
+                else
+                    expDoubleS += num;
+            }
+            else if (nowCarrot)
+            {
+                bottomS = num;
+                nowCarrot = false;
+            }
+            else if (nowFunc)
+            {
+                calculate.RemoveAt(calculate.Count - 1);
+                bottomS = num;
+                nowCarrot = false;
+            }
+            else if (nowOper)
+            {
+                bottomS = num;
+                nowOper = false;
+            }
+            else bottomS += num;
+            //GatherNum(1);
+            //NowIsDot(1);
         }
 
         //입력
@@ -636,55 +696,35 @@ namespace Scientific_Calculator
 
             switch(inputN)
             {
-                case 1:   
-                    nowOper = false;
-                    GatherNum(1);
-                    NowIsDot(1);
+                case 1:
+                    NumInput("1");
                     break;
                 case 2:
-                    nowOper = false;
-                    GatherNum(2);
-                    NowIsDot(2);
+                    NumInput("2");
                     break;
                 case 3:
-                    nowOper = false;
-                    GatherNum(3);
-                    NowIsDot(3);
+                    NumInput("3");
                     break;
                 case 4:
-                    nowOper = false;
-                    GatherNum(4);
-                    NowIsDot(4);
+                    NumInput("4");
                     break;
                 case 5:
-                    nowOper = false;
-                    GatherNum(5);
-                    NowIsDot(5);
+                    NumInput("5");
                     break;
                 case 6:
-                    nowOper = false;
-                    GatherNum(6);
-                    NowIsDot(6);
+                    NumInput("6");
                     break;
                 case 7:
-                    nowOper = false;
-                    GatherNum(7);
-                    NowIsDot(7);
+                    NumInput("7");
                     break;
                 case 8:
-                    nowOper = false;
-                    GatherNum(8);
-                    NowIsDot(8);
+                    NumInput("8");
                     break;
                 case 9:
-                    nowOper = false;
-                    GatherNum(9);
-                    NowIsDot(9);
+                    NumInput("9");
                     break;
                 case 0:
-                    nowOper = false;
-                    GatherNum(0);
-                    NowIsDot(0);
+                    NumInput("0");
                     break;
 
                 case 10:
@@ -694,20 +734,43 @@ namespace Scientific_Calculator
 
                 // π
                 case 11:
-                    calculate.Add("π");
+                    if (ePI)
+                    {
+                        //calculate.RemoveAt(calculate.Count - 1);
+                        //calculate.Add(Math.PI.ToString());
+                        bottomS = MathF.PI().ToString();
+
+                    }
+                    else
+                    {
+                        //calculate.Add(Math.PI.ToString());
+                        bottomS = MathF.PI().ToString();
+                    }
+                    ePI = true;
                     break;
 
                 // e
                 case 12:
-                    calculate.Add("e");
+                    if (ePI)
+                    {
+                        //calculate.RemoveAt(calculate.Count - 1);
+                        //calculate.Add(Math.E.ToString());
+                        bottomS = MathF.e().ToString();
+                    }
+                    else
+                    {
+                        //calculate.Add(Math.E.ToString());
+                        bottomS = MathF.e().ToString();
+                    }
+                    ePI = true;
                     break;
 
                 // CE C
                 case 13:
                     if (!isC)
-                        calculate.Clear();
+                        bottomS = "";
                     else
-                        stack.Clear();
+                        calculate.Clear();
 
                     break;
 
@@ -718,11 +781,22 @@ namespace Scientific_Calculator
 
                 // sqr , cube
                 case 15:
+                    ePI = false;
                     if (!isSecondMode)
-                        FuncInput("sqr");
+                    {
+                        if(nowExp)
+                        {
+                            nowExp = false;
+                            bottomD = MathF.sqr(MathF.exp(expDouble, int.Parse(expDoubleS)));
+                            bottomS = bottomD.ToString();
+                        }
+                        FuncInput("sqr");   
+                    }
                     else
                     {
                         FuncInput("cube");
+                        bottomD = MathF.cube(double.Parse(bottomS));
+                        bottomS = bottomD.ToString();
                         isSecondMode = false;
                     }
                     nowFunc = true;
@@ -730,35 +804,57 @@ namespace Scientific_Calculator
 
                 // 1/x
                 case 16:
-                    isValue = double.TryParse(calculate[calculate.Count - 1], out value);
+                    ePI = false;
+                    //isValue = double.TryParse(calculate[calculate.Count - 1], out value);
 
-                    if (isValue)
+                    if(nowFunc)
                     {
-                        calculate.RemoveAt(calculate.Count - 1);
-                        calculate.Add("1/(" + value + ")");
+
                     }
+                    else if(nowOper)
+                    {
+                        //앞의 식 연산 한 값 1/()
+                    }
+                    else
+                    {
+
+                    }
+                    //if (isValue)
+                    //{
+                    //    calculate.RemoveAt(calculate.Count - 1);
+                    //    calculate.Add("1/(" + value + ")");
+                    //}
                     break;
 
                 // abs
                 case 17:
+                    ePI = false;
                     FuncInput("abs");
+                    bottomD = MathF.abs(double.Parse(bottomS));
+                    bottomS = bottomD.ToString();
                     nowFunc = true;
                     break;
 
                 // Exp 
                 case 18:
-                    isValue = double.TryParse(calculate[calculate.Count - 1], out value);
-            
-                    if (isValue)
-                    {
-                        calculate.RemoveAt(calculate.Count - 1);
-                        calculate.Add(value + ".e+");
-                        calculate.Add("0");
-                    }
+                    ePI = false;
+                    //isValue = double.TryParse(calculate[calculate.Count - 1], out value);
+
+                    //if (isValue)
+                    //{
+                    //    calculate.RemoveAt(calculate.Count - 1);
+                    //    calculate.Add(value + ".e+");
+                    //    calculate.Add("0");
+                    //}
+
+                    expDouble = double.Parse(bottomS);
+                    bottomS += "e+";
+                    nowExp = true;
                     break;
 
                 // mod
                 case 19:
+                    ePI = false;
                     isValue = double.TryParse(calculate[calculate.Count - 1], out value);
 
                     if (isValue)
@@ -769,6 +865,7 @@ namespace Scientific_Calculator
 
                 // sqrt , cuberoot
                 case 20:
+                    ePI = false;
                     if (!isSecondMode)
                         FuncInput("sqrt");
                     else
@@ -782,11 +879,13 @@ namespace Scientific_Calculator
 
                 // (
                 case 21:
+                    ePI = false;
                     stack.Push('(');
                     calculate.Add("("); break;
 
                 // )
                 case 22:
+                    ePI = false;
                     while (!stack.Peek().Equals('('))
                     { Console.WriteLine(stack.Peek()); stack.Pop(); }
                     break;
@@ -797,71 +896,173 @@ namespace Scientific_Calculator
 
                 // factorial
                 case 23:
+                    ePI = false;
                     FuncInput("fact");
                     nowFunc = true;
                     break;
 
                 // 나누기 /
                 case 24:
-                    while (stack.Count != 0)
+                    ePI = false;
+                    //while (stack.Count != 0)
+                    //{
+                    //    if (stack.Peek().Equals('(')) { break; }
+                    //    else if (stack.Peek().Equals('*') || stack.Peek().Equals('/'))
+                    //    {
+                    //        Console.WriteLine(stack.Peek()); stack.Pop();
+                    //    }
+                    //    else { break; }
+                    //}
+                    if (bottomS == "")
                     {
-                        if (stack.Peek().Equals('(')) { break; }
-                        else if (stack.Peek().Equals('*') || stack.Peek().Equals('/'))
-                        {
-                            Console.WriteLine(stack.Peek()); stack.Pop();
-                        }
-                        else { break; }
+                        calculate.Add("0");
+                        calculate.Add("/");
                     }
-                    stack.Push('/');
-                    calculate.Add("/");
+                    else if (nowFunc)
+                    {
+                        calculate.Add("/");
+                        nowFunc = false;
+                    }
+                    else if(nowExp)
+                    {
+                        nowExp = false;
+                        calculate.Add(MathF.exp(expDouble, int.Parse(expDoubleS)).ToString());
+                        calculate.Add("/");
+                        bottomS = MathF.exp(expDouble, int.Parse(expDoubleS)).ToString();
+                    }
+                    else
+                    {
+                        calculate.Add(bottomS);
+                        calculate.Add("/");
+                    }
                     nowOper = true;
                     break;
 
-                // ^ , yroot
+                // ^ , yroot (Carrot0
                 case 25:
+                    ePI = false;
+                    nowFunc = false;
                     if (!isSecondMode)
                     {
-                        isValue = double.TryParse(calculate[calculate.Count - 1], out value);
-
-                        if (isValue)
+                        if (!nowOper)
                         {
+                            if (bottomS == "" && calculate.Count == 0)
+                            {
+                                //calculate.RemoveAt(calculate.Count - 1);
+                                calculate.Add("0");
+                                calculate.Add("^");
+                            }
+                            else if(nowCarrot)
+                            {
+                                break;
+                            }
+                            else
+                            {
+                                if (nowFunc)
+                                {
+                                    calculate.Add("^");
+                                }
+                                else
+                                {
+                                    //calculate.RemoveAt(calculate.Count - 1);
+                                    calculate.Add(bottomS);
+                                    calculate.Add("^");
+                                }
+                            }
+                        }
+                        else if(nowOper)
+                        {
+                            calculate.RemoveAt(calculate.Count - 1);
                             calculate.Add("^");
                         }
                     }
                     else
                     {
-                        calculate.Add("yroot");
+                        if (!nowOper)
+                        {
+                            if (bottomS == "" && stack.Count == 0)
+                            {
+                                //calculate.RemoveAt(calculate.Count - 1);
+                                calculate.Add("0");
+                                calculate.Add("yroot");
+                            }
+                            else
+                            {
+                                if (nowFunc)
+                                {
+                                    calculate.Add("^");
+                                }
+                                else
+                                {
+                                    //calculate.RemoveAt(calculate.Count - 1);
+                                    calculate.Add(bottomS);
+                                    calculate.Add("yroot");
+                                }
+                            }
+                        }
+                        else if (nowOper)
+                        {
+                            calculate.RemoveAt(calculate.Count - 1);
+                            calculate.Add("^");
+                        }
                         isSecondMode = false;
                     }
+                    nowCarrot = true;
                     break;
 
                 // *
                 case 26:
-                    while (stack.Count != 0)
+                    ePI = false;
+                    //while (stack.Count != 0)
+                    //{
+                    //    if (stack.Peek().Equals('(')) { break; }
+                    //    else if (stack.Peek().Equals('*') || stack.Peek().Equals('/'))
+                    //    {
+                    //        Console.WriteLine(stack.Peek()); stack.Pop();
+                    //    }
+                    //    else { break; }
+                    //}
+                    if (bottomS == "")
                     {
-                        if (stack.Peek().Equals('(')) { break; }
-                        else if (stack.Peek().Equals('*') || stack.Peek().Equals('/'))
-                        {
-                            Console.WriteLine(stack.Peek()); stack.Pop();
-                        }
-                        else { break; }
+                        calculate.Add("0");
+                        calculate.Add("*");
                     }
-                    stack.Push('*');
-                    calculate.Add("*");
+                    else if (nowFunc)
+                    {
+                        calculate.Add("*");
+                        nowFunc = false;
+                    }
+                    else if (nowExp)
+                    {
+                        nowExp = false;
+                        calculate.Add(MathF.exp(expDouble, int.Parse(expDoubleS)).ToString());
+                        calculate.Add("*");
+                        bottomS = MathF.exp(expDouble, int.Parse(expDoubleS)).ToString();
+                    }
+                    else
+                    {
+                        calculate.Add(bottomS);
+                        calculate.Add("*");
+                    }
                     nowOper = true;
                     break;
 
                 // 10^ ,2^
                 case 27:
+                    ePI = false;
                     if (!isSecondMode)
                     {
-                        isValue = double.TryParse(calculate[calculate.Count - 1], out value);
+                        //isValue = double.TryParse(calculate[calculate.Count - 1], out value);
 
-                        if (isValue)
-                        {
-                            calculate.RemoveAt(calculate.Count - 1);
-                            calculate.Add("10^(" + value + ")");
-                        }
+                        //if (isValue)
+                        //{
+                        //    calculate.RemoveAt(calculate.Count - 1);
+                        //    calculate.Add("10^(" + bottomS + ")");
+                        //}
+
+                        calculate.Add("10^(" + bottomS + ")");
+                        bottomD = double.Parse(bottomS);
+                        bottomS = MathF.Pow(bottomD).ToString();
                     }
                     else
                     {
@@ -874,23 +1075,46 @@ namespace Scientific_Calculator
                         }
                         isSecondMode = false;
                     }
+                    nowFunc = true;
                     break;
 
                 // -
                 case 28:
-                    while (stack.Count != 0)
+                    ePI = false;
+                    //while (stack.Count != 0)
+                    //{
+                    //    if (stack.Peek().Equals('(')) { break; }
+                    //    else { Console.WriteLine(stack.Peek()); stack.Pop(); }
+                    //}
+                    if (bottomS == "")
                     {
-                        if (stack.Peek().Equals('(')) { break; }
-                        else { Console.WriteLine(stack.Peek()); stack.Pop(); }
+                        calculate.Add("0");
+                        calculate.Add("-");
                     }
-                    stack.Push('-');
-                    calculate.Add("-");
+                    else if (nowFunc)
+                    {
+                        calculate.Add("-");
+                        nowFunc = false;
+                    }
+                    else if (nowExp)
+                    {
+                        nowExp = false;
+                        calculate.Add(MathF.exp(expDouble, int.Parse(expDoubleS)).ToString());
+                        calculate.Add("-");
+                        bottomS = MathF.exp(expDouble, int.Parse(expDoubleS)).ToString();
+                    }
+                    else
+                    {
+                        calculate.Add(bottomS);
+                        calculate.Add("-");
+                    }
                     nowOper = true;
                     break;
 
                 // log, log base
                 case 29:
-                    if(!isSecondMode)
+                    ePI = false;
+                    if (!isSecondMode)
                         FuncInput("log");
                     else
                     {
@@ -901,18 +1125,40 @@ namespace Scientific_Calculator
 
                 // +
                 case 30:
-                    while (stack.Count != 0)
+                    ePI = false;
+                    //while (stack.Count != 0)
+                    //{
+                    //    if (stack.Peek().Equals('(')) { break; }
+                    //    else { Console.WriteLine(stack.Peek()); stack.Pop(); }
+                    //}
+                    if (bottomS == "")
                     {
-                        if (stack.Peek().Equals('(')) { break; }
-                        else { Console.WriteLine(stack.Peek()); stack.Pop(); }
+                        calculate.Add("0");
+                        calculate.Add("+");
                     }
-                    stack.Push('+');
-                    calculate.Add("+");
+                    else if(nowFunc)
+                    {
+                        calculate.Add("+");
+                        nowFunc = false;
+                    }
+                    else if (nowExp)
+                    {
+                        nowExp = false;
+                        calculate.Add(MathF.exp(expDouble, int.Parse(expDoubleS)).ToString());
+                        calculate.Add("+");
+                        bottomS = MathF.exp(expDouble, int.Parse(expDoubleS)).ToString();
+                    }
+                    else
+                    {
+                        calculate.Add(bottomS);
+                        calculate.Add("+");
+                    }
                     nowOper = true;
                     break;
 
                 // ln, e^
                 case 31:
+                    ePI = false;
                     if (!isSecondMode)
                     {
                         FuncInput("ln");
@@ -925,32 +1171,59 @@ namespace Scientific_Calculator
                     }
                     break;
 
-                // +-
+                // +/-
                 case 32:
-                    isValue = double.TryParse(calculate[calculate.Count - 1], out value);
-
-                    if (isValue)
+                    ePI = false;
+                    if (bottomS != "")
                     {
-                        value = value / -1;
-                        calculate.RemoveAt(calculate.Count - 1);
-                        calculate.Add("("+value+")");
+                        //isValue = double.TryParse(calculate[calculate.Count - 1], out value);
+
+                        bottomD = double.Parse(bottomS);
+                        bottomD = bottomD / -1;
+                        bottomS = bottomD.ToString();
+
+                        //value = value / -1;
+                        //calculate.RemoveAt(calculate.Count - 1);
+                        //calculate.Add("(" + value + ")");
+
+                        FuncInput("negate");
                     }
+                    else
+                    {
+                        value = 0;
+                        FuncInput("negate");
+                    }
+                    nowFunc = true;
                     break;
 
                 // .
                 case 34:
-                    isValue = double.TryParse(calculate[calculate.Count - 1], out value);
+                    ePI = false;
+                    bottomD = double.Parse(bottomS);
 
-                    if (isValue)
+                    if (nowFunc)
                     {
-                        calculate.RemoveAt(calculate.Count - 1);
-                        calculate.Add(value+".");
-                        nowDot = true;
+                        bottomS = "0.";
                     }
+                    else
+                    {
+                        //decimal 인지
+                        if (!((bottomD % 1) > 0))
+                        {
+                            bottomS += ".";
+                        }
+                    }
+                    //if (isValue)
+                    //{
+                    //    calculate.RemoveAt(calculate.Count - 1);
+                    //    calculate.Add(value+".");
+                    //    nowDot = true;
+                    //}
                     break;
 
                 // =
                 case 35:
+                    ePI = false;
                     isValue = double.TryParse(calculate[calculate.Count - 1], out value);
 
                     if (isValue)
@@ -970,6 +1243,14 @@ namespace Scientific_Calculator
                 Console.Write(calculate[i]);
                 Console.Write(" ");
             }
+            Console.WriteLine();
+            if(nowExp)
+            {
+                Console.Write(bottomS);
+                Console.WriteLine(expDoubleS);
+            }
+            else
+            Console.WriteLine(bottomS);
         }
     }
 }
