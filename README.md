@@ -12,15 +12,18 @@ MathNet.Numerics 사용하여 자연로그를 계산하였습니다.
 
 
 
+
 윈도우 공학용 계산기를 참고하여 CLI 형식으로 만들었습니다.
 
 ![스크린샷 2023-03-27 오후 8 25 24](https://user-images.githubusercontent.com/101074004/227930785-b648edc6-5bf6-4772-a82b-3fad87570e7e.png)
 
 
 
+
 각 기능에 번호를 부여하여 입력 받았습니다.
 
 ![스크린샷 2023-03-27 오후 8 26 14](https://user-images.githubusercontent.com/101074004/227931796-e31f8605-b2ab-4246-97ba-e615ac354a0b.png)
+
 
 
 
