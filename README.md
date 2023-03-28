@@ -8,7 +8,7 @@ CLI 공학용 계산기
 
 기본적인 수학연산은 .NET 에서 지원해주는 api를 통해 계산했습니다.
 
-MathNet.Numerics 사용하여 자연로그를 계산하였습니다.
+MathNet.Numerics 사용하여 소수점 팩토리얼(gamma)을 계산하였습니다.
 
 
 
