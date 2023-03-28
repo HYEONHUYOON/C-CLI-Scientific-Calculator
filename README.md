@@ -2,6 +2,8 @@
 
 CLI 공학용 계산기
 
+in master branch
+
 언어 : C# 
 환경 : .Net FrameWork 
 개발 IDE : visual studio mac
