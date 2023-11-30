@@ -1,4 +1,4 @@
-# Calculator
+# C-CLI-Scientific-Calculator
 
 CLI 공학용 계산기
 
